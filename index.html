@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Amrita ❤️</title>
+<style>
+/* General Body */
+body{
+  margin:0;
+  font-family:'Segoe UI',sans-serif;
+  background:linear-gradient(135deg,#ff9ec9,#ffc0cb,#ffb6c1);
+  color:white;
+  text-align:center;
+  overflow:hidden;
+}
+
+/* Title Glow */
+h1{
+  font-size:3em;
+  margin-top:20px;
+  animation:glow 2s infinite alternate;
+}
+@keyframes glow{
+  from{ text-shadow:0 0 10px white;}
+  to{ text-shadow:0 0 40px white,0 0 60px #ff69b4;}
+}
+
+/* Love Letter Typing */
+.typing{
+  font-size:1.2em;
+  width:90%;
+  max-width:600px;
+  margin:auto;
+  line-height:1.6;
+  min-height:140px;
+  margin-top:15px;
+}
+
+/* Button */
+button{
+  margin-top:20px;
+  padding:10px 25px;
+  border:none;
+  border-radius:25px;
+  font-size:16px;
+  background:white;
+  color:#ff4b6e;
+  cursor:pointer;
+}
+
+/* Photo Slider */
+.slider{
+  margin-top:25px;
+}
+.slider img{
+  width:90%;
+  max-width:300px;
+  height:auto;
+  object-fit:cover;
+  border-radius:15px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.3);
+  transition:transform 0.5s;
+}
+.slider img:hover{
+  transform:scale(1.05);
+}
+
+/* Canvas */
+canvas{
+  position:fixed;
+  top:0;
+  left:0;
+  z-index:-1;
+}
+
+/* Hearts & Petals */
+.heart,.petal{
+  position:fixed;
+  pointer-events:none;
+  font-size:20px;
+}
+@keyframes fall{
+  0%{transform:translateY(-10vh);opacity:1;}
+  100%{transform:translateY(110vh);opacity:0;}
+}
+
+/* Birthday Cake */
+#cake{
+  width:130px;
+  margin:auto;
+  margin-top:20px;
+  position:relative;
+}
+.candle{
+  width:12px;
+  height:25px;
+  background:yellow;
+  position:absolute;
+  top:-25px;
+  left:50%;
+  transform:translateX(-50%);
+  border-radius:3px;
+  box-shadow:0 0 8px gold;
+}
+.flame{
+  width:6px;
+  height:6px;
+  background:orange;
+  border-radius:50%;
+  position:absolute;
+  top:-6px;
+  left:50%;
+  transform:translateX(-50%);
+  animation:flame 0.5s infinite alternate;
+}
+@keyframes flame{
+  0%{height:6px;background:orange;}
+  50%{height:10px;background:#ff4500;}
+  100%{height:6px;background:orange;}
+}
+
+/* Responsive adjustments */
+@media(max-width:500px){
+  h1{font-size:2.2em;}
+  .typing{font-size:1em;}
+  button{font-size:14px;padding:8px 20px;}
+}
+</style>
+</head>
+<body>
+
+<!-- Music -->
+<audio id="music" autoplay loop>
+  <source src="love-song.mp3" type="audio/mpeg">
+</audio>
+
+<!-- Fireworks -->
+<canvas id="fireworks"></canvas>
+
+<h1>Happy Birthday Amrita ❤️</h1>
+
+<div class="typing" id="message"></div>
+<button onclick="startLove()">Open My Heart 💌</button>
+
+<!-- Photo Slider -->
+<div class="slider">
+  <img id="photo" src="amrita1.jpg">
+</div>
+
+<!-- Birthday Cake -->
+<div id="cake">
+  <div class="candle"><div class="flame"></div></div>
+  <img src="https://i.imgur.com/ft5yKQz.png" width="130" alt="cake">
+</div>
+
+<script>
+// Love letter typing
+const text=`My Dearest Amrita,
+
+Today on 13th March, I want you to know
+how much you mean to me.
+
+Your smile lights up my world,
+your love fills my heart with happiness.
+
+Every moment with you is magical,
+and every memory we create together
+is my greatest treasure.
+
+Happy Birthday my love ❤️
+You are my today, my tomorrow, and my forever.`;
+let i=0;
+function startLove(){
+  const msg=document.getElementById("message");
+  const typing=setInterval(()=>{
+    msg.innerHTML+=text.charAt(i);
+    i++;
+    if(i>=text.length) clearInterval(typing);
+  },40);
+}
+
+// Photo slider
+let photos=["amrita1.jpg","amrita2.jpg","amrita3.jpg","amrita4.jpg","amrita5.jpg","amrita6.jpg"];
+let index=0;
+setInterval(()=>{
+  index=(index+1)%photos.length;
+  document.getElementById("photo").src=photos[index];
+},3000);
+
+// Floating hearts
+setInterval(()=>{
+  let heart=document.createElement("div");
+  heart.innerHTML="❤️";
+  heart.className="heart";
+  heart.style.left=Math.random()*100+"vw";
+  heart.style.fontSize=(Math.random()*20+10)+"px";
+  heart.style.animation="fall 6s linear";
+  document.body.appendChild(heart);
+  setTimeout(()=>heart.remove(),6000);
+},400);
+
+// Rose petals
+setInterval(()=>{
+  let petal=document.createElement("div");
+  petal.innerHTML="🌹";
+  petal.className="petal";
+  petal.style.left=Math.random()*100+"vw";
+  petal.style.animation="fall 8s linear";
+  document.body.appendChild(petal);
+  setTimeout(()=>petal.remove(),8000);
+},1200);
+
+// Fireworks
+const canvas=document.getElementById("fireworks");
+const ctx=canvas.getContext("2d");
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+let particles=[];
+function firework(x,y){
+  for(let i=0;i<60;i++){
+    particles.push({x:x,y:y,vx:(Math.random()-0.5)*6,vy:(Math.random()-0.5)*6,life:80});
+  }
+}
+function animate(){
+  ctx.fillStyle="rgba(0,0,0,0.2)";
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  particles.forEach((p,index)=>{
+    p.x+=p.vx; p.y+=p.vy; p.life--;
+    ctx.fillStyle="hsl("+Math.random()*360+",100%,60%)";
+    ctx.beginPath(); ctx.arc(p.x,p.y,2,0,Math.PI*2); ctx.fill();
+    if(p.life<=0) particles.splice(index,1);
+  });
+  requestAnimationFrame(animate);
+}
+setInterval(()=>{firework(Math.random()*canvas.width,Math.random()*canvas.height/2);},900);
+animate();
+</script>
+
+</body>
+</html>
